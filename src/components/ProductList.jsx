@@ -2,7 +2,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 const ProductList = () => {
   return (
     <div className="container mt-20 mb-20">
-      <h1 className='text-white text-center my-20'>Productos</h1>
+      <h2 className='text-white text-center my-20'>Productos</h2>
         <li className="product flex-col sm:flex-row gap-1 items-center">
             <div className="product_name">
                 <h3 className='text-white'>Producto x</h3>

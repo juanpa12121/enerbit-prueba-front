@@ -3,9 +3,10 @@ import useProducts from "../hooks/useProducts"
 
 const InventoryPage = () => {
 
-  const {ProductList} = useProducts();
+  const {ProductList, user} = useProducts();
   return (
     <div className="container mt-52">
+      <h1 className="text-white mb-8">Hola <span className="text-gray-400">{user.username}</span> !</h1>
         <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8">
           
           <Link to="/" className="btn-secondary text-center" >Volver</Link>

@@ -1,10 +1,19 @@
 import { useNavigate } from "react-router-dom"
+import useProducts from "../hooks/useProducts";
 
 const LoginPage = () => {
+  const {user, handleFrmInputLogin, sweetAlert} = useProducts();
   const navigate = useNavigate();
 
   const handleInventoryPage = (e) =>{
     e.preventDefault();
+    if(user.username === "" || user.password === ""){
+      sweetAlert("error", "Error!", "Ambos campos son obligatorios", true);
+      return;
+    }else if(user.username !== "admin" || user.password !== "admin"){
+      sweetAlert("error", "Error!", "Usuario no encontrado", true);
+      return;
+    }
     navigate("/inventory", {replace: true});
   }
   return (
@@ -18,6 +27,9 @@ const LoginPage = () => {
             type="text" 
             className="peer" 
             placeholder=" "
+            name="username"
+            value={user.username}
+            onChange={handleFrmInputLogin}
             >
           </input>
           <label>Usuario</label>
@@ -28,6 +40,9 @@ const LoginPage = () => {
             type="password" 
             className="peer" 
             placeholder=" "
+            name="password"
+            value={user.password}
+            onChange={handleFrmInputLogin}
             >
           </input>
           <label >Password</label>
