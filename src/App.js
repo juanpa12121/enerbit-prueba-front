@@ -5,9 +5,11 @@ import Header from './components/Header'
 import InventoryPage from './pages/InventoryPage'
 import LoginPage from './pages/LoginPage'
 import ProductList from './components/ProductList'
+import { ProductsProvider } from './context/ProductsProvider'
 
 const App = () => {
   return (
+    <ProductsProvider>
     <BrowserRouter>
     <Header/>
       <Routes>
@@ -16,6 +18,8 @@ const App = () => {
       </Routes>
     <Footer/>
     </BrowserRouter>
+    </ProductsProvider>
+
   )
 }
 

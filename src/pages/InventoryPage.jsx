@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
+import useProducts from "../hooks/useProducts"
 
-const InventoryPage = ({ProductList}) => {
+const InventoryPage = () => {
+
+  const {ProductList} = useProducts();
   return (
     <div className="container mt-52">
         <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8">
