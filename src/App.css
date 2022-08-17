@@ -33,6 +33,25 @@ body{
   height: 92vh;
 }
 
+.productList{
+  margin-top: 5rem;
+}
+
+.product{
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #d8e4e2;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  gap: 5rem;
+}
+
+.product_edit_delete{
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
 @layer base{
   h1{
       @apply text-6xl

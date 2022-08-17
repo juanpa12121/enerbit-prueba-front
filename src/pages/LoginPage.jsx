@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router-dom"
+
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handleInventoryPage = (e) =>{
+    e.preventDefault();
+    navigate("/inventory", {replace: true});
+  }
   return (
     <div className="flex alto items-center gap-x-6">
     <div className="container mt-32 h-1/2 flex flex-col justify-center items-center bg-purple-900">
@@ -25,6 +33,7 @@ const LoginPage = () => {
           <label >Password</label>
         </div>
         <button
+        onClick={handleInventoryPage}
         type="submit" 
         className="btn-primary w-100">Ingresar</button>
       </form>
