@@ -1,9 +1,7 @@
-import React from 'react'
-
 const LoginPage = () => {
   return (
-    <div className="flex h-screen items-center gap-x-6">
-    <div className="container flex flex-col h-screen justify-center items-center bg-purple-900">
+    <div className="flex alto items-center gap-x-6">
+    <div className="container mt-32 h-1/2 flex flex-col justify-center items-center bg-purple-900">
       <h1 className="text-white mb-20 text-center">Login</h1>
       <form className="container">
         <h2 className="text-gray-300 mb-3">Username</h2>
@@ -31,7 +29,7 @@ const LoginPage = () => {
         className="btn-primary w-100">Ingresar</button>
       </form>
     </div>
-      <div className="bg-login sm:block" alt="bg-login"></div>
+      <div className="bg-login sm:block mt-40 h-4/5" alt="bg-login"></div>
   </div>
   )
 }

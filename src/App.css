@@ -29,6 +29,10 @@ body{
   height: 100%;
 }
 
+.alto{
+  height: 92vh;
+}
+
 @layer base{
   h1{
       @apply text-6xl
