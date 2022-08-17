@@ -1,38 +1,77 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  box-sizing: border-box;
+  /*Para que bordes, padding no afecten el ancho de nuestros elementos*/
+  font-size: 62.5%;
+  /*Para que 1 rem = 10px*/
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+body{
+  @apply bg-slate-800
+}
+
+
+@layer base{
+  h1{
+      @apply text-6xl
+  }
+  h2{
+      @apply text-4xl
+  }
+  h3{
+      @apply text-3xl
+  }
+  h4{
+      @apply text-2xl
+  }
+
+}
+
+@layer components{
+  .btn-primary{
+      @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-8 py-3 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800
+  }
+  .btn-secondary{
+      @apply focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xl px-8 py-3 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900
+  } 
+  input{
+      @apply block py-5 px-0 w-full text-3xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600
+  }
+  label{
+      @apply peer-focus:font-medium absolute text-3xl text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6
+  }
+}
+.peer{
+  color:#fff;
+}
+.container{
+  max-width: 120rem;
+  width: 90%;
+  /*En dispo moviles para que se vea una pequeña margen*/
+  /*width: min(90%, 120 rem), nuevo, mas corto*/
+  margin: 0 auto;
+}
+
+@media (min-width: 320px) {
+  .container{
+      max-width: 100%  ;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/*Poner más grande ventana SweetAlert*/
+.swal2-popup {
+  font-size: 1.6rem !important;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.swal2-styled.swal2-confirm{
+  background-color: #3e62d6 !important ;
 }
