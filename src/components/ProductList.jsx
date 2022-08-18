@@ -10,7 +10,7 @@ import useProducts from '../hooks/useProducts';
 
 
 const ProductList = () => {
-  const {products, open, handleClose, handleProductInput, productInput, postProducts, getProduct, typeModal, setTypeModal } = useProducts();
+  const {products, open, handleClose, handleProductInput, productInput, postProducts, getProduct, putProduct, typeModal, setTypeModal } = useProducts();
 
   return (
     <>
@@ -337,8 +337,10 @@ const ProductList = () => {
             }
             <button className='btn-secondary' onClick={handleClose}>Cancelar</button>
             {
-              typeModal === "create" || typeModal === "edit" ?
-              <button className='btn-primary' onClick={postProducts}>{typeModal === "edit" ? "Update" : typeModal === "create" ? "Create" : ""}</button>
+              typeModal === "create" ?
+              <button className='btn-primary' onClick={postProducts}>Create</button>
+              : typeModal === "edit" ?
+              <button className='btn-primary' onClick={putProduct}>Update</button>
               : ""
             }
 

@@ -55,22 +55,7 @@ const ProductsProvider = ({children}) =>{
         });
     }
 
-    const getProducts = async () =>{
-        const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters?page=0&size=5";
-        await axios.get(urlApi).then(res=>{
-            setProducts(res.data.items)
-        }).catch(err=>{
-            console.log(err.message)
-        })
-    }
-
-    useEffect(() => {
-        getProducts();
-    }, [])
-
-    const postProducts = async () =>{
-        
-        const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters";
+    const validarInputs = () =>{
         const { serial, connection_type, storage_system, condition, owner, location, manufacturer, i_max, i_b, i_n, seals} = productInput;
 
         if(serial === "" || connection_type === "" || storage_system === "" || condition === "" || owner === "" || location === "" || manufacturer === "" || isNaN(i_max) || isNaN(i_b)  || isNaN(i_n) || isNaN(seals)){
@@ -89,7 +74,25 @@ const ProductsProvider = ({children}) =>{
             sweetAlert("error", "Error", "El propietario debe ser unicamente RF, OR", true);
             return;
         }
+    }
 
+    const getProducts = async () =>{
+        const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters?page=0&size=5";
+        await axios.get(urlApi).then(res=>{
+            setProducts(res.data.items)
+        }).catch(err=>{
+            console.log(err.message)
+        })
+    }
+
+    useEffect(() => {
+        getProducts();
+    }, [])
+
+    const postProducts = async () =>{
+        
+        const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters";
+        validarInputs();
         await axios.post(urlApi, productInput).then(res=>{
             setOpen(false);
             getProducts();
@@ -103,12 +106,21 @@ const ProductsProvider = ({children}) =>{
     const getProduct = (product) =>{
         setProductInput(product);
         setOpen(true);
+    }
 
+    const putProduct =  () =>{
+        const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters/" + productInput.id;
+        validarInputs();
+         axios.patch( urlApi, productInput).then(res=>{
+            setOpen(false);
+            getProducts();
+            sweetAlert("success", "Producto actualizado", "El producto ha sido actualizado correctamente", true, 3000);
+        })
     }
 
 
     return(
-        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal }}>
+        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal, putProduct }}>
             {children}
         </ProductsContext.Provider>
     );
