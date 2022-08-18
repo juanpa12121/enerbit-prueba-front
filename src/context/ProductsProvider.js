@@ -16,6 +16,8 @@ const ProductsProvider = ({children}) =>{
 
     const [open, setOpen] = useState(false);
 
+    const [typeModal, setTypeModal] = useState("")
+
     const [productInput, setProductInput] = useState({id: "", serial: "", connection_type: "", storage_system: "", condition: "", owner: "", location: "", manufacturer: "", purchase: "", i_max: Number, i_b: Number, i_n:Number, seals: "", created_at: "", updated_at: ""});
 
 
@@ -38,6 +40,8 @@ const ProductsProvider = ({children}) =>{
     
     const handleClose = () => {
         setOpen(false);
+        setProductInput({id: "", serial: "", connection_type: "", storage_system: "", condition: "", owner: "", location: "", manufacturer: "", purchase: "", i_max: Number, i_b: Number, i_n:Number, seals: "", created_at: "", updated_at: ""});
+        setTypeModal("")
     };
 
     //Funcion para alertas
@@ -67,7 +71,7 @@ const ProductsProvider = ({children}) =>{
     const postProducts = async () =>{
         
         const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters";
-        const {id, serial, connection_type, storage_system, condition, owner, location, manufacturer, purchase, i_max, i_b, i_n, seals, created_at, updated_at} = productInput;
+        const { serial, connection_type, storage_system, condition, owner, location, manufacturer, i_max, i_b, i_n, seals} = productInput;
 
         if(serial === "" || connection_type === "" || storage_system === "" || condition === "" || owner === "" || location === "" || manufacturer === "" || isNaN(i_max) || isNaN(i_b)  || isNaN(i_n) || isNaN(seals)){
             sweetAlert("error", "Error", "Todos los campos son obligatorios", true);
@@ -96,8 +100,15 @@ const ProductsProvider = ({children}) =>{
         })
     }
 
+    const getProduct = (product) =>{
+        setProductInput(product);
+        setOpen(true);
+
+    }
+
+
     return(
-        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, postProducts }}>
+        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal }}>
             {children}
         </ProductsContext.Provider>
     );

@@ -10,7 +10,7 @@ import useProducts from '../hooks/useProducts';
 
 
 const ProductList = () => {
-  const {products, open, handleClickOpen, handleClose, handleProductInput, productInput, postProducts, getProductById } = useProducts();
+  const {products, open, handleClose, handleProductInput, productInput, postProducts, getProduct, typeModal, setTypeModal } = useProducts();
 
   return (
     <>
@@ -71,16 +71,17 @@ const ProductList = () => {
               <tbody>
                 {
                   products.map((product) => (
+                    
                     <tr key={uuidv4()} className='bg-white border-b dark:bg-gray-900 dark:border-gray-700'>
                       <th className='px-8'>
                         <div className="product_edit_delete flex-col sm:flex-row">
-                        <button className='btn-primary w-full sm:w-auto'>
-                            <FaEdit className='m-auto' />
+                        <button onClick={(e)=>{e.preventDefault(); setTypeModal("edit"); getProduct(product)}}  className='btn-primary w-full sm:w-auto'>
+                            <FaEdit  className='m-auto' />
                         </button>
                         <button className='btn-secondary w-full sm:w-auto'>
                           <FaTrash className='m-auto'/>
                         </button>
-                        <button className='btn-secondary w-full sm:w-auto'>
+                        <button onClick={(e)=>{e.preventDefault(); setTypeModal("read"); getProduct(product)}} className='btn-secondary w-full sm:w-auto'>
                           Ver
                         </button>
                         </div>
@@ -112,7 +113,7 @@ const ProductList = () => {
       <div>
 
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>AGREGAR PRODUCTO</DialogTitle>
+          <DialogTitle>{typeModal === "edit" ? "EDITAR PRODUCTO" : typeModal === "read" ? "VER PRODUCTO" : "AGREGAR PRODUCTO"}</DialogTitle>
           <DialogContent>
             <DialogContentText className='mb-5'>
               Ingrese los datos
@@ -129,119 +130,128 @@ const ProductList = () => {
                   className="peer text-black" 
                   name="id"
                   onChange={handleProductInput}
-                  value={productInput.id}
+                  value={productInput ? productInput.id : ""}
                   >
                 </input>
               </div>
               <div className="relative z-0 mb-6 w-full group">
               <label>Serial</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="number" 
                   className="peer text-black" 
                   placeholder="Float"
                   name="serial"
                   onChange={handleProductInput}
-                  value={productInput.serial}
+                  value={productInput ? productInput.serial : ""}
                   >
                 </input>
               </div>
               <div className="relative z-0 mb-6 w-full group">
               <label>Connection_type</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
                   placeholder="directa, semidirecta, indirecta"
                   name="connection_type"
                   onChange={handleProductInput}
-                  value={productInput.connection_type}
+                  value={productInput ? productInput.connection_type : ""}
                   >
                 </input>
               </div>
               <div className="relative z-0 mb-6 w-full group">
               <label>Storage_system</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
                   placeholder="interno, externo"
                   name="storage_system"
                   onChange={handleProductInput}
-                  value={productInput.storage_system}
+                  value={productInput ? productInput.storage_system : ""}
                   >
                 </input>
               </div>
               <div className="relative z-0 mb-6 w-full group">
               <label>Condition</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
                   placeholder="nuevo, usado"
                   name="condition"
                   onChange={handleProductInput}
-                  value={productInput.condition}
+                  value={productInput ? productInput.condition : ""}
                   >
                 </input>
               </div>
               <div className="relative z-0 mb-6 w-full group">
               <label>Owner</label>
-                <input 
+                <input
+                readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
                   placeholder="RF, OR"
                   name="owner"
                   onChange={handleProductInput}
-                  value={productInput.owner}
+                  value={productInput ? productInput.owner : ""}
                   >
                 </input>
               </div>
 
               <div className="relative z-0 mb-6 w-full group">
               <label>Location</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
                   placeholder="Location"
                   name="location"
                   onChange={handleProductInput}
-                  value={productInput.location}
+                  value={productInput ? productInput.location : ""}
                   >
                 </input>
               </div>
 
               <div className="relative z-0 mb-6 w-full group">
               <label>Manufacturer</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
                   placeholder="yes, no"
                   name="manufacturer"
                   onChange={handleProductInput}
-                  value={productInput.manufacturer}
+                  value={productInput ? productInput.manufacturer : ""}
                   >
                 </input>
               </div>
 
               <div className="relative z-0 mb-6 w-full group">
               <label>Purchase</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
                   placeholder="AAAA-MM-DD hh:mm:ss"
                   name="purchase"
                   onChange={handleProductInput}
-                  value={productInput.purchase}
+                  value={productInput ? productInput.purchase : ""}
                   >
                 </input>
               </div>
 
               <div className="relative z-0 mb-6 w-full group">
               <label>I_max</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="number" step={0.001}
                   className="peer text-black" 
                   placeholder="Float"
                   name="i_max"
                   onChange={handleProductInput}
-                  value={productInput.i_max}
+                  value={productInput ? productInput.i_max : ""}
                   >
                 </input>
               </div>
@@ -249,39 +259,42 @@ const ProductList = () => {
 
               <div className="relative z-0 mb-6 w-full group">
               <label>I_b</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="number" step={0.1}
                   className="peer text-black" 
                   placeholder="Float"
                   name="i_b"
                   onChange={handleProductInput}
-                  value={productInput.i_b}
+                  value={productInput ? productInput.i_b : ""}
                   >
                 </input>
               </div>
 
               <div className="relative z-0 mb-6 w-full group">
               <label>I_n</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="number" step={0.1}
                   className="peer text-black" 
                   placeholder="Float"
                   name="i_n"
                   onChange={handleProductInput}
-                  value={productInput.i_n}
+                  value={productInput ? productInput.i_n : ""}
                   >
                 </input>
               </div>
 
               <div className="relative z-0 mb-6 w-full group">
               <label>Seals</label>
-                <input 
+                <input
+                  readOnly={typeModal !== "read" ? false : true}
                   type="number" 
                   className="peer text-black" 
                   placeholder="Float"
                   name="seals"
                   onChange={handleProductInput}
-                  value={productInput.seals}
+                  value={productInput ? productInput.seals : ""}
                   >
                 </input>
               </div>
@@ -295,7 +308,7 @@ const ProductList = () => {
                   placeholder="ReadOnly"
                   name="created_at"
                   onChange={handleProductInput}
-                  value={productInput.created_at}
+                  value={productInput ? productInput.created_at : ""}
                   >
                 </input>
               </div>
@@ -303,13 +316,13 @@ const ProductList = () => {
               <div className="relative z-0 mb-6 w-full group">
               <label>Updated_At</label>
                 <input
-                  readOnly
+                  readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
                   placeholder="ReadOnly"
                   name="updated_at"
                   onChange={handleProductInput}
-                  value={productInput.updated_at}
+                  value={productInput.updated_at && productInput ? productInput.updated_at : ""}
                   >
                 </input>
               </div>
@@ -319,8 +332,16 @@ const ProductList = () => {
 
           </DialogContent>
           <DialogActions>
+            {
+
+            }
             <button className='btn-secondary' onClick={handleClose}>Cancelar</button>
-            <button className='btn-primary' onClick={postProducts}>Aceptar</button>
+            {
+              typeModal === "create" || typeModal === "edit" ?
+              <button className='btn-primary' onClick={postProducts}>{typeModal === "edit" ? "Update" : typeModal === "create" ? "Create" : ""}</button>
+              : ""
+            }
+
           </DialogActions>
         </Dialog>
       </div>

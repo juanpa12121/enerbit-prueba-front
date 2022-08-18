@@ -3,7 +3,12 @@ import useProducts from "../hooks/useProducts"
 
 const InventoryPage = () => {
 
-  const {ProductList, user, handleClickOpen} = useProducts();
+  const {ProductList, user, handleClickOpen, setTypeModal} = useProducts();
+  const addProduct = (e) => {
+    e.preventDefault();
+    setTypeModal("create");
+    handleClickOpen();
+  }
   return (
     <div className="container mt-52">
       <h1 className="text-white mb-8">Hola <span className="text-gray-400">{user.username}</span> !</h1>
@@ -11,7 +16,7 @@ const InventoryPage = () => {
           
           <Link to="/" className="btn-secondary text-center" >Volver</Link>
         
-        <button onClick={handleClickOpen} className="btn-primary">Ingresar producto</button>
+        <button onClick={addProduct} className="btn-primary">Ingresar producto</button>
         <div className="search-button">   
             <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
             <div className="relative">
