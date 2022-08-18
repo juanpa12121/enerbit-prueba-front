@@ -2,15 +2,15 @@ import { useNavigate } from "react-router-dom"
 import useProducts from "../hooks/useProducts";
 
 const LoginPage = () => {
-  const {user, handleFrmInputLogin, sweetAlert} = useProducts();
+  const {user, handleFrmInputLogin, sweetAlert, username, setUsername, password, setPassword, setLocalStorage, setLocalStorage2} = useProducts();
   const navigate = useNavigate();
 
   const handleInventoryPage = (e) =>{
     e.preventDefault();
-    if(user.username === "" || user.password === ""){
+    if(username === "" || password === ""){
       sweetAlert("error", "Error!", "Ambos campos son obligatorios", true);
       return;
-    }else if(user.username !== "admin" || user.password !== "admin"){
+    }else if(username !== "admin" || password !== "admin"){
       sweetAlert("error", "Error!", "Usuario no encontrado", true);
       return;
     }
@@ -28,8 +28,8 @@ const LoginPage = () => {
             className="peer" 
             placeholder=" "
             name="username"
-            value={user.username}
-            onChange={handleFrmInputLogin}
+            value={username}
+            onChange={setLocalStorage}
             >
           </input>
           <label>Usuario</label>
@@ -41,8 +41,8 @@ const LoginPage = () => {
             className="peer" 
             placeholder=" "
             name="password"
-            value={user.password}
-            onChange={handleFrmInputLogin}
+            value={password}
+            onChange={setLocalStorage2}
             >
           </input>
           <label >Password</label>

@@ -10,7 +10,9 @@ const ProductsContext = createContext();
 const ProductsProvider = ({children}) =>{
 
     //Estado para guardar la informacion del usuario admin a loguearse
-    const [user, setUser] = useState({username: "", password: ""});
+    const [user, setUser] = useState({username: window.localStorage.getItem("username"), password: window.localStorage.getItem("password")});
+    const [username, setUsername] = useState(localStorage.getItem("username"));
+    const [password, setPassword] = useState(localStorage.getItem("password"));
 
     const [products, setProducts] = useState([])
 
@@ -22,7 +24,25 @@ const ProductsProvider = ({children}) =>{
 
     const [search, setSearch] = useState("")
 
+    const setLocalStorage = (e) => {
+        try {
+            //setUser({...user, username: e.target.value});
+            setUsername(e.target.value);
+            window.localStorage.setItem("username", (e.target.value));
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
+    const setLocalStorage2 = (e) => {
+        try {
+            //setUser({...user, password: e.target.value});
+            setPassword(e.target.value);
+            window.localStorage.setItem("password", (e.target.value));
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleFrmInputLogin = (e) =>{
         setUser({...user, [e.target.name]: e.target.value});
@@ -153,7 +173,7 @@ const ProductsProvider = ({children}) =>{
 
 
     return(
-        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal, putProduct, deleteProduct, search, handleSearchChange }}>
+        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal, putProduct, deleteProduct, search, handleSearchChange, username, password, setUsername, setPassword, setLocalStorage, setLocalStorage2 }}>
             {children}
         </ProductsContext.Provider>
     );
