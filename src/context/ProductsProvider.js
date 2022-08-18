@@ -18,7 +18,9 @@ const ProductsProvider = ({children}) =>{
 
     const [typeModal, setTypeModal] = useState("")
 
-    const [productInput, setProductInput] = useState({id: "", serial: "", connection_type: "", storage_system: "", condition: "", owner: "", location: "", manufacturer: "", purchase: "", i_max: Number, i_b: Number, i_n:Number, seals: "", created_at: "", updated_at: ""});
+    const [productInput, setProductInput] = useState({});
+
+    const [search, setSearch] = useState("")
 
 
 
@@ -32,6 +34,11 @@ const ProductsProvider = ({children}) =>{
         parseFloat(e.target.value) 
         : e.target.value});
         //setProductInput({...productInput, i_max: parseFloat(e.target.value)});
+    }
+
+    //Estado que guarda lo que se escriba en la barra de búsqueda
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value); //Guardar/capturar texto de la barra de búsqueda
     }
 
     const handleClickOpen = () => {
@@ -118,9 +125,35 @@ const ProductsProvider = ({children}) =>{
         })
     }
 
+    const deleteProduct = (id) =>{
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters/" + id
+                axios.delete(urlApi).then(res=>{
+                    getProducts();
+                })
+                
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+          })
+
+    }
+
 
     return(
-        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal, putProduct }}>
+        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal, putProduct, deleteProduct, search, handleSearchChange }}>
             {children}
         </ProductsContext.Provider>
     );

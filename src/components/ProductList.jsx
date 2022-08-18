@@ -10,7 +10,7 @@ import useProducts from '../hooks/useProducts';
 
 
 const ProductList = () => {
-  const {products, open, handleClose, handleProductInput, productInput, postProducts, getProduct, putProduct, typeModal, setTypeModal } = useProducts();
+  const {products, open, handleClose, handleProductInput, productInput, postProducts, getProduct, putProduct, typeModal, setTypeModal, deleteProduct, search } = useProducts();
 
   return (
     <>
@@ -70,20 +70,23 @@ const ProductList = () => {
               </thead>
               <tbody>
                 {
-                  products.map((product) => (
+                  products
+                  .filter((product)=>product.serial.includes(search))
+                  .map((product) => (
                     
                     <tr key={uuidv4()} className='bg-white border-b dark:bg-gray-900 dark:border-gray-700'>
                       <th className='px-8'>
                         <div className="product_edit_delete flex-col sm:flex-row">
+                        <button onClick={(e)=>{e.preventDefault(); setTypeModal("read"); getProduct(product)}} className='btn-secondary w-full sm:w-auto bg-purple-700'>
+                          Watch
+                        </button>
                         <button onClick={(e)=>{e.preventDefault(); setTypeModal("edit"); getProduct(product)}}  className='btn-primary w-full sm:w-auto'>
                             <FaEdit  className='m-auto' />
                         </button>
-                        <button className='btn-secondary w-full sm:w-auto'>
+                        <button onClick={(e)=>{e.preventDefault();  deleteProduct(product.id)}} className='btn-secondary w-full sm:w-auto'>
                           <FaTrash className='m-auto'/>
                         </button>
-                        <button onClick={(e)=>{e.preventDefault(); setTypeModal("read"); getProduct(product)}} className='btn-secondary w-full sm:w-auto'>
-                          Ver
-                        </button>
+
                         </div>
                       </th>
                       <th className='py-4 px-6 text-lg font-medium text-gray-900 whitespace-nowrap dark:text-white' >
@@ -335,7 +338,7 @@ const ProductList = () => {
             {
 
             }
-            <button className='btn-secondary' onClick={handleClose}>Cancelar</button>
+            <button className='btn-secondary' onClick={handleClose}>Cancel</button>
             {
               typeModal === "create" ?
               <button className='btn-primary' onClick={postProducts}>Create</button>
