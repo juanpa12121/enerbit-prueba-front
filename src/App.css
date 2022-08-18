@@ -1,6 +1,9 @@
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 html {
   box-sizing: border-box;
@@ -106,4 +109,8 @@ body{
 
 .swal2-styled.swal2-confirm{
   background-color: #3e62d6 !important ;
+}
+
+.swal2-container{
+  z-index: 99999 !important;
 }

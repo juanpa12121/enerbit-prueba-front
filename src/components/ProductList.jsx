@@ -1,11 +1,20 @@
+import {v4 as uuidv4} from 'uuid';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import useProducts from '../hooks/useProducts';
 
+
 const ProductList = () => {
-  const { products } = useProducts();
+  const {products, open, handleClickOpen, handleClose, handleProductInput, productInput, postProducts, getProductById } = useProducts();
+
   return (
     <>
-      <div className="overflow-x-auto relative shadow-md sm:rounded-lg py-12">
+      <div className="overflow-x-auto relative shadow-md sm:rounded-lg py-12 mb-20">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -62,7 +71,7 @@ const ProductList = () => {
               <tbody>
                 {
                   products.map((product) => (
-                    <tr className='bg-white border-b dark:bg-gray-900 dark:border-gray-700'>
+                    <tr key={uuidv4()} className='bg-white border-b dark:bg-gray-900 dark:border-gray-700'>
                       <th className='px-8'>
                         <div className="product_edit_delete flex-col sm:flex-row">
                         <button className='btn-primary w-full sm:w-auto'>
@@ -70,6 +79,9 @@ const ProductList = () => {
                         </button>
                         <button className='btn-secondary w-full sm:w-auto'>
                           <FaTrash className='m-auto'/>
+                        </button>
+                        <button className='btn-secondary w-full sm:w-auto'>
+                          Ver
                         </button>
                         </div>
                       </th>
@@ -96,6 +108,223 @@ const ProductList = () => {
 
               </tbody>
           </table>
+
+      <div>
+
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>AGREGAR PRODUCTO</DialogTitle>
+          <DialogContent>
+            <DialogContentText className='mb-5'>
+              Ingrese los datos
+            </DialogContentText>
+            
+            {/* Inputs */}
+            <div className='grid grid-cols-2 gap-2'>
+            <div className="relative z-0 mb-6 w-full group">
+              <label>ID</label>
+                <input
+                  readOnly
+                  placeholder='--ReadOnly--'
+                  type="number" 
+                  className="peer text-black" 
+                  name="id"
+                  onChange={handleProductInput}
+                  value={productInput.id}
+                  >
+                </input>
+              </div>
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Serial</label>
+                <input 
+                  type="number" 
+                  className="peer text-black" 
+                  placeholder="Float"
+                  name="serial"
+                  onChange={handleProductInput}
+                  value={productInput.serial}
+                  >
+                </input>
+              </div>
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Connection_type</label>
+                <input 
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="directa, semidirecta, indirecta"
+                  name="connection_type"
+                  onChange={handleProductInput}
+                  value={productInput.connection_type}
+                  >
+                </input>
+              </div>
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Storage_system</label>
+                <input 
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="interno, externo"
+                  name="storage_system"
+                  onChange={handleProductInput}
+                  value={productInput.storage_system}
+                  >
+                </input>
+              </div>
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Condition</label>
+                <input 
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="nuevo, usado"
+                  name="condition"
+                  onChange={handleProductInput}
+                  value={productInput.condition}
+                  >
+                </input>
+              </div>
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Owner</label>
+                <input 
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="RF, OR"
+                  name="owner"
+                  onChange={handleProductInput}
+                  value={productInput.owner}
+                  >
+                </input>
+              </div>
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Location</label>
+                <input 
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="Location"
+                  name="location"
+                  onChange={handleProductInput}
+                  value={productInput.location}
+                  >
+                </input>
+              </div>
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Manufacturer</label>
+                <input 
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="yes, no"
+                  name="manufacturer"
+                  onChange={handleProductInput}
+                  value={productInput.manufacturer}
+                  >
+                </input>
+              </div>
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Purchase</label>
+                <input 
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="AAAA-MM-DD hh:mm:ss"
+                  name="purchase"
+                  onChange={handleProductInput}
+                  value={productInput.purchase}
+                  >
+                </input>
+              </div>
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>I_max</label>
+                <input 
+                  type="number" step={0.001}
+                  className="peer text-black" 
+                  placeholder="Float"
+                  name="i_max"
+                  onChange={handleProductInput}
+                  value={productInput.i_max}
+                  >
+                </input>
+              </div>
+
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>I_b</label>
+                <input 
+                  type="number" step={0.1}
+                  className="peer text-black" 
+                  placeholder="Float"
+                  name="i_b"
+                  onChange={handleProductInput}
+                  value={productInput.i_b}
+                  >
+                </input>
+              </div>
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>I_n</label>
+                <input 
+                  type="number" step={0.1}
+                  className="peer text-black" 
+                  placeholder="Float"
+                  name="i_n"
+                  onChange={handleProductInput}
+                  value={productInput.i_n}
+                  >
+                </input>
+              </div>
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Seals</label>
+                <input 
+                  type="number" 
+                  className="peer text-black" 
+                  placeholder="Float"
+                  name="seals"
+                  onChange={handleProductInput}
+                  value={productInput.seals}
+                  >
+                </input>
+              </div>
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Created_At</label>
+                <input
+                  readOnly
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="ReadOnly"
+                  name="created_at"
+                  onChange={handleProductInput}
+                  value={productInput.created_at}
+                  >
+                </input>
+              </div>
+
+              <div className="relative z-0 mb-6 w-full group">
+              <label>Updated_At</label>
+                <input
+                  readOnly
+                  type="text" 
+                  className="peer text-black" 
+                  placeholder="ReadOnly"
+                  name="updated_at"
+                  onChange={handleProductInput}
+                  value={productInput.updated_at}
+                  >
+                </input>
+              </div>
+
+            </div> 
+
+
+          </DialogContent>
+          <DialogActions>
+            <button className='btn-secondary' onClick={handleClose}>Cancelar</button>
+            <button className='btn-primary' onClick={postProducts}>Aceptar</button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
       </div>
     </>
 

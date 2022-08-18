@@ -14,9 +14,31 @@ const ProductsProvider = ({children}) =>{
 
     const [products, setProducts] = useState([])
 
+    const [open, setOpen] = useState(false);
+
+    const [productInput, setProductInput] = useState({id: "", serial: "", connection_type: "", storage_system: "", condition: "", owner: "", location: "", manufacturer: "", purchase: "", i_max: Number, i_b: Number, i_n:Number, seals: "", created_at: "", updated_at: ""});
+
+
+
     const handleFrmInputLogin = (e) =>{
         setUser({...user, [e.target.name]: e.target.value});
     }
+
+    const handleProductInput = async(e) =>{
+        const tName = e.target.name;
+        setProductInput({...productInput, [tName]: tName === 'i_b' || tName === "i_max" || tName === 'i_n' || tName === "seals" ?
+        parseFloat(e.target.value) 
+        : e.target.value});
+        //setProductInput({...productInput, i_max: parseFloat(e.target.value)});
+    }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     //Funcion para alertas
     function sweetAlert(icon, title, text, showConfirmButton, timer){
@@ -29,23 +51,53 @@ const ProductsProvider = ({children}) =>{
         });
     }
 
+    const getProducts = async () =>{
+        const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters?page=0&size=5";
+        await axios.get(urlApi).then(res=>{
+            setProducts(res.data.items)
+        }).catch(err=>{
+            console.log(err.message)
+        })
+    }
+
     useEffect(() => {
-        const getProducts = async () =>{
-            const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters?page=0&size=5";
-            const { data } = await axios.get(urlApi)
-            console.log(data.items)
-            setProducts(data.items)
-        }
         getProducts();
     }, [])
 
     const postProducts = async () =>{
         
+        const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters";
+        const {id, serial, connection_type, storage_system, condition, owner, location, manufacturer, purchase, i_max, i_b, i_n, seals, created_at, updated_at} = productInput;
+
+        if(serial === "" || connection_type === "" || storage_system === "" || condition === "" || owner === "" || location === "" || manufacturer === ""){
+            sweetAlert("error", "Error", "Todos los campos son obligatorios", true);
+            return;
+        }else if(connection_type !== 'directa' && connection_type !== 'indirecta' && connection_type !== 'semidirecta'){
+            sweetAlert("error", "Error", "El tipo de conexion debe ser unicamente directa, indirecta, semidirecta", true);
+            return;
+        }else if(storage_system !== 'interno' && storage_system !== 'externo'){
+            sweetAlert("error", "Error", "El tipo de almacenamiento debe ser unicamente interno, externo", true);
+            return;
+        }else if(condition !== 'nuevo' && condition !== 'usado'){
+            sweetAlert("error", "Error", "La condición debe ser unicamente nuevo, usado", true);
+            return;
+        }else if(owner !== 'RF' && owner !== 'OR'){
+            sweetAlert("error", "Error", "El propietario debe ser unicamente RF, OR", true);
+            return;
+        }
+
+        await axios.post(urlApi, productInput).then(res=>{
+            setOpen(false);
+            getProducts();
+            sweetAlert("success", "Producto agregado", "El producto ha sido agregado correctamente", true, 3000);
+        }).catch(err=>{
+        
+            console.log(err.response.data)
+        })
     }
-    
 
     return(
-        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products }}>
+        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, postProducts }}>
             {children}
         </ProductsContext.Provider>
     );
