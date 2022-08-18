@@ -4,17 +4,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import useProducts from '../hooks/useProducts';
-
 
 const ProductList = () => {
   const {products, open, handleClose, handleProductInput, productInput, postProducts, getProduct, putProduct, typeModal, setTypeModal, deleteProduct, search } = useProducts();
 
   return (
     <>
-      <div className="overflow-x-auto relative shadow-md sm:rounded-lg py-12 mb-20">
+      <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>

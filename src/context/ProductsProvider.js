@@ -22,7 +22,10 @@ const ProductsProvider = ({children}) =>{
 
     const [productInput, setProductInput] = useState({});
 
-    const [search, setSearch] = useState("")
+    const [search, setSearch] = useState("");
+
+    //Para la paginacion
+    const [info, setInfo] = useState({page: "", pages: "", next_page: "", url_next: "", previous_page: "", url_prev: ""})
 
     const setLocalStorage = (e) => {
         try {
@@ -102,18 +105,30 @@ const ProductsProvider = ({children}) =>{
             return;
         }
     }
-
-    const getProducts = async () =>{
-        const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters?page=0&size=5";
-        await axios.get(urlApi).then(res=>{
-            setProducts(res.data.items)
-        }).catch(err=>{
+    const urlApiGet = "http://ops.enerbit.dev/learning/api/v1/meters?page=0&size=5"
+    const getProducts = async (urlApiGet) =>{
+        const url_next = `http://ops.enerbit.dev/learning/api/v1/meters?page=${info.next_page}&size=5`
+        console.log(url_next)
+        await axios.get(urlApiGet).then(res=>{
+            setProducts(res.data.items);
+            setInfo({page: res.data.page,
+                 pages: res.data.pages, 
+                 next_page: res.data.next_page, 
+                 url_next: `http://ops.enerbit.dev/learning/api/v1/meters?page=${res.data.next_page}&size=5`,
+                 previous_page: res.data.previous_page,
+                 url_prev: res.data.previous_page !== null ?
+                    `http://ops.enerbit.dev/learning/api/v1/meters?page=${res.data.previous_page}&size=5` 
+                : null
+                
+                });
+        })
+        .catch(err=>{
             console.log(err.message)
         })
     }
 
     useEffect(() => {
-        getProducts();
+        getProducts(urlApiGet);
     }, [])
 
     const postProducts = async () =>{
@@ -171,9 +186,28 @@ const ProductsProvider = ({children}) =>{
 
     }
 
+    //Funcion para realizar una nueva llamada a la API pero con la página anterior
+    const onPrevious = () =>{
+        getProducts(info.url_prev);
+    }
+      //Funcion para realizar una nueva llamada a la API pero con la página siguiente
+    const onNext = () =>{
+        getProducts(info.url_next);
+    }
+
+    //Logica que envia a la siguiente pagina
+    const handlePrevious = () =>{
+        onPrevious();
+    }
+
+    //Logica que envia a la pagina anterior
+    const handleNext = () =>{
+        onNext();
+    }
+
 
     return(
-        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal, putProduct, deleteProduct, search, handleSearchChange, username, password, setUsername, setPassword, setLocalStorage, setLocalStorage2 }}>
+        <ProductsContext.Provider value = {{ ProductList, user, handleFrmInputLogin, sweetAlert, products, open, handleClickOpen, handleClose, handleProductInput, productInput, setProductInput, postProducts, getProduct, typeModal, setTypeModal, putProduct, deleteProduct, search, handleSearchChange, username, password, setUsername, setPassword, setLocalStorage, setLocalStorage2, handlePrevious, handleNext, info, onPrevious, onNext }}>
             {children}
         </ProductsContext.Provider>
     );

@@ -114,3 +114,25 @@ body{
 .swal2-container{
   z-index: 99999 !important;
 }
+
+
+.pagination{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.pagination  ul{
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.pagination  button{
+  border-radius: 2rem;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1.5rem;
+  text-align: center;
+  border: 0;
+  cursor: pointer;
+}

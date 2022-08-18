@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage'
 import ProductList from './components/ProductList'
 import { ProductsProvider } from './context/ProductsProvider'
 
+
 const App = () => {
   return (
     <ProductsProvider>
