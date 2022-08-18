@@ -69,7 +69,7 @@ const ProductsProvider = ({children}) =>{
         const urlApi = "http://ops.enerbit.dev/learning/api/v1/meters";
         const {id, serial, connection_type, storage_system, condition, owner, location, manufacturer, purchase, i_max, i_b, i_n, seals, created_at, updated_at} = productInput;
 
-        if(serial === "" || connection_type === "" || storage_system === "" || condition === "" || owner === "" || location === "" || manufacturer === ""){
+        if(serial === "" || connection_type === "" || storage_system === "" || condition === "" || owner === "" || location === "" || manufacturer === "" || isNaN(i_max) || isNaN(i_b)  || isNaN(i_n) || isNaN(seals)){
             sweetAlert("error", "Error", "Todos los campos son obligatorios", true);
             return;
         }else if(connection_type !== 'directa' && connection_type !== 'indirecta' && connection_type !== 'semidirecta'){
