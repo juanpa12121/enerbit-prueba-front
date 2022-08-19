@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import useProducts from "../hooks/useProducts";
 
 const LoginPage = () => {
-  const {user, handleFrmInputLogin, sweetAlert, username, password,  setLocalStorage, setLocalStorage2} = useProducts();
+  const { sweetAlert, username, password,  setLocalStorage, setLocalStorage2} = useProducts();
   const navigate = useNavigate();
   //Metodo para validar ir hacia la pagina de Inventario
   const handleInventoryPage = (e) => {

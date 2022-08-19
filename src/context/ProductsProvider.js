@@ -8,11 +8,11 @@ const ProductsContext = createContext();
 
 //2. Crear el provider (Permite que otros componentes puedan acceder a los datos del contexto)
 const ProductsProvider = ({ children }) => {
-  //Estado para guardar la informacion del usuario admin a loguearse
-  const [user, setUser] = useState({
-    username: window.localStorage.getItem("username"),
-    password: window.localStorage.getItem("password"),
-  });
+  //Estado para guardar la informacion del usuario admin a loguearse (sin lcoalstorage)
+  // const [user, setUser] = useState({
+  //   username: window.localStorage.getItem("username"),
+  //   password: window.localStorage.getItem("password"),
+  // });
   //Estados que guardan la informacion del usuArio
   const [username, setUsername] = useState(localStorage.getItem("username"));
   const [password, setPassword] = useState(localStorage.getItem("password"));
@@ -258,7 +258,7 @@ const ProductsProvider = ({ children }) => {
     <ProductsContext.Provider
       value={{
         ProductList,
-        user,
+        //user,
         //handleFrmInputLogin,
         sweetAlert,
         products,
