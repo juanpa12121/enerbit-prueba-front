@@ -16,7 +16,14 @@ Con este comando se inicia el servidor
 Con este comando se construye la app para producción
 
 Para poder realizar peticiones a la API es fundamental tener en el navegador la opción -disable-web-security, ya que si no esta habilitado esto, el cors va a bloquear las peticiones.
-
 Tambien se puede probar en software como POSTMAN o afines.
 
+### Capturas de pantalla
+#### LoginPage
+![](https://raw.githubusercontent.com/juanpa12121/enerbit-prueba-front/master/public/LoginPage.png)
 
+#### InventoryPage
+![](https://raw.githubusercontent.com/juanpa12121/enerbit-prueba-front/master/public/InventoryPage.png)
+
+#### Modal
+![](https://raw.githubusercontent.com/juanpa12121/enerbit-prueba-front/master/public/Modal.png)
