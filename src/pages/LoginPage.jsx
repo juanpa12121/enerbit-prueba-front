@@ -15,6 +15,7 @@ const LoginPage = () => {
       return;
     }
     navigate("/inventory", { replace: true });
+    sweetAlert("success", "Bienvenido!", "Has iniciado sesión correctamente", false, 1500);
   };
 
   return (
