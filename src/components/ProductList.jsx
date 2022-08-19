@@ -123,7 +123,7 @@ const ProductList = () => {
           <DialogTitle>{typeModal === "edit" ? "UPDATE PRODUCT" : typeModal === "read" ? "SEE PRODUCT" : "CREATE PRODUCT"}</DialogTitle>
           <DialogContent>
             <DialogContentText className='mb-5'>
-              Ingrese los datos
+              Product data
             </DialogContentText>
             
             {/* Inputs */}
