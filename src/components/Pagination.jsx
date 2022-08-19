@@ -7,7 +7,7 @@ const Pagination = () => {
         <div className="pagination mb-20 mt-5">
         <ul>
             {
-              info.url_prev ?
+              info.previous_page || info.previous_page === 0 ?
               <li>
                   <button className="btn-primary" onClick={handlePrevious} >Previous</button>
               </li>
@@ -15,7 +15,7 @@ const Pagination = () => {
               ""
             }
             {
-              info.url_next ?
+              info.next_page?
               <li>
                   <button className="btn-primary" onClick={handleNext} >Next</button>
               </li>

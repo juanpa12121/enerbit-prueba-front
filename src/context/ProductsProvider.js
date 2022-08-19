@@ -32,6 +32,7 @@ const ProductsProvider = ({ children }) => {
   //Estado para guardar lo que escriba el usuario en la barra de búsqueda
   const [search, setSearch] = useState("");
 
+
   //Para la paginacion
   const [info, setInfo] = useState({
     page: "",
@@ -147,8 +148,6 @@ const ProductsProvider = ({ children }) => {
     
   //Metodo GET para obtener los productos de la API
   const getProducts = async (urlApiGet) => {
-    const url_next = `http://ops.enerbit.dev/learning/api/v1/meters?page=${info.next_page}&size=5`;
-    console.log(url_next);
     await axios
       .get(urlApiGet)
       .then((res) => {
@@ -158,7 +157,10 @@ const ProductsProvider = ({ children }) => {
           url_actual: `http://ops.enerbit.dev/learning/api/v1/meters?page=${res.data.page}&size=5`,
           pages: res.data.pages,
           next_page: res.data.next_page,
-          url_next: `http://ops.enerbit.dev/learning/api/v1/meters?page=${res.data.next_page}&size=5`,
+          url_next:
+            res.data.next_page !== null
+            ? `http://ops.enerbit.dev/learning/api/v1/meters?page=${res.data.next_page}&size=5`
+            : null,
           previous_page: res.data.previous_page,
           url_prev:
             res.data.previous_page !== null
@@ -174,6 +176,15 @@ const ProductsProvider = ({ children }) => {
   useEffect(() => {
     getProducts(urlApiGet);
   }, []);
+
+  //UseEffect para que al buscar, no sólo busque en la página donde está, sino en todas las páginas
+  useEffect(() => {
+    if(search!==""){
+      getProducts("https://ops.enerbit.dev/learning/api/v1/meters?page=0&size=50")
+    }else{
+      getProducts(urlApiGet)
+    }
+  }, [search])
 
   //Metodo POST para crear un producto en la API
   const postProducts = async () => {
