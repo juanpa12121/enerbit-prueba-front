@@ -9,6 +9,12 @@ import useProducts from '../hooks/useProducts';
 
 const ProductList = () => {
   const {products, open, handleClose, handleProductInput, productInput, postProducts, getProduct, putProduct, typeModal, setTypeModal, deleteProduct, search } = useProducts();
+  
+  const seeProduct = (e, product) =>{
+    e.preventDefault();
+    setTypeModal("read");
+    getProduct(product);
+  }
 
   return (
     <>
@@ -75,13 +81,13 @@ const ProductList = () => {
                     <tr key={uuidv4()} className='bg-white border-b dark:bg-gray-900 dark:border-gray-700'>
                       <th className='px-8'>
                         <div className="product_edit_delete flex-col sm:flex-row">
-                        <button onClick={(e)=>{e.preventDefault(); setTypeModal("read"); getProduct(product)}} className='btn-secondary w-full sm:w-auto bg-purple-700'>
+                        <button onClick={(e)=>seeProduct(e,product)} className='btn-secondary w-full sm:w-auto bg-purple-700'>
                           Watch
                         </button>
                         <button onClick={(e)=>{e.preventDefault(); setTypeModal("edit"); getProduct(product)}}  className='btn-primary w-full sm:w-auto'>
                             <FaEdit  className='m-auto' />
                         </button>
-                        <button onClick={(e)=>{e.preventDefault();  deleteProduct(product.id)}} className='btn-secondary w-full sm:w-auto'>
+                        <button onClick={(e)=>{e.preventDefault(); deleteProduct(product.id)}} className='btn-secondary w-full sm:w-auto'>
                           <FaTrash className='m-auto'/>
                         </button>
 
@@ -154,7 +160,7 @@ const ProductList = () => {
                   readOnly={typeModal !== "read" ? false : true}
                   type="text" 
                   className="peer text-black" 
-                  placeholder="directa, semidirecta, indirecta"
+                  placeholder="directa, semi-directa, indirecta"
                   name="connection_type"
                   onChange={handleProductInput}
                   value={productInput ? productInput.connection_type : ""}

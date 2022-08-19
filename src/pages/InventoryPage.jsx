@@ -1,43 +1,47 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
-import useProducts from "../hooks/useProducts"
+import useProducts from "../hooks/useProducts";
 
 const InventoryPage = () => {
-
-  const {ProductList, user, handleClickOpen, setTypeModal, handleSearchChange, username, password} = useProducts();
+  const {
+    ProductList,
+    //user,
+    handleClickOpen,
+    setTypeModal,
+    handleSearchChange,
+    username,
+  } = useProducts();
+  
   const addProduct = (e) => {
     e.preventDefault();
     setTypeModal("create");
     handleClickOpen();
-  }
+  };
   return (
     <div className="container mt-52">
-      <h1 className="text-white mb-8">Hello <span className="text-gray-400">{username}</span> !</h1>
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8  mb-20">
-          
-          <Link to="/" className="btn-secondary text-center" >Back</Link>
-          
-          <button 
-            onClick={addProduct} 
-            className="btn-primary">
-            Create Product
-          </button>
+      <h1 className="text-white mb-8">
+        Hello <span className="text-gray-400">{username}</span> !
+      </h1>
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8  mb-20">
+        <Link to="/" className="btn-secondary text-center">
+          Back
+        </Link>
 
-          <input 
-            className="text-white w-2/6" 
-            type="search" 
-            placeholder="Search serial"
-            onChange={handleSearchChange}
-            >
-            
-          </input>
+        <button onClick={addProduct} className="btn-primary">
+          Create Product
+        </button>
 
-        </div>
-        <ProductList></ProductList>
-        <Pagination/>
-
+        <input
+          className="text-white w-2/6"
+          type="search"
+          placeholder="Search serial"
+          onChange={handleSearchChange}
+        ></input>
+      </div>
+      <ProductList></ProductList>
+      <Pagination />
     </div>
-  )
-}
+  );
+};
 
-export default InventoryPage
+export default InventoryPage;
